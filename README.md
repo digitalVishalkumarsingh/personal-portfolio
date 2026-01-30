@@ -2,7 +2,7 @@
 
 A modern, responsive **personal portfolio website** built to showcase my skills, projects, and experience as a **Software Developer**.
 
-🔗 **Live Demo:** https://personal-portfolio-psi-ten-82.vercel.app
+🔗 **Live Demo:** https://personal-portfolio-nu-blue-96.vercel.app/
 📦 **Repository:** https://github.com/digitalVishalkumarsingh/personal-portfolio
 
 ---
