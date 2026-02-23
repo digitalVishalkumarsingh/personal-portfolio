@@ -1,118 +1,194 @@
-import { GraduationCap, Briefcase, Code2, Rocket, MapPin, Search } from "lucide-react"
+"use client"
 
-export default function AboutSection() {
+import {
+  GraduationCap,
+  Briefcase,
+  Search,
+  MapPin,
+  ArrowRight,
+} from "lucide-react"
+import { JSX } from "react"
+
+interface Stat {
+  value: string
+  label: string
+}
+
+const STATS: Stat[] = [
+  { value: "SDE-1", label: "Role Seeking" },
+  { value: "ASAP", label: "Joining" },
+  { value: "Full-Stack", label: "Specialization" },
+  { value: "BCA", label: "Degree" },
+]
+
+const UPSKILLING: string[] = [
+  "Java OOPs",
+  "Spring Boot",
+  "Spring Data JPA",
+  "REST APIs",
+  "SQL",
+]
+
+export default function AboutSection(): JSX.Element {
   return (
     <section
       id="about"
-      className="relative bg-black text-white py-24 overflow-hidden"
+      className="relative bg-zinc-950 text-white py-28 overflow-hidden font-mono"
     >
-      {/* Background Decorative Glow */}
-      <div className="absolute top-1/2 left-0 -translate-x-1/2 -translate-y-1/2 w-100 h-100 bg-blue-600/10 blur-[120px] rounded-full"></div>
+      {/* Grid background */}
+      <div
+        className="absolute inset-0 opacity-[0.03]"
+        style={{
+          backgroundImage:
+            "linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)",
+          backgroundSize: "72px 72px",
+        }}
+      />
 
-      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 items-start relative z-10">
-        
-        {/* LEFT – STORY */}
-        <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 mb-6">
-            <MapPin className="h-3 w-3 text-blue-400" />
-            <span className="text-[10px] uppercase tracking-[0.2em] text-blue-400 font-bold">Currently in Bangalore</span>
+      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10">
+
+        {/* Section Header */}
+        <div className="flex items-end justify-between mb-16 flex-wrap gap-6">
+          <div>
+            <p className="text-[10px] tracking-[4px] uppercase text-emerald-500 mb-3">
+              About Me
+            </p>
+            <h2
+              className="text-[clamp(40px,6vw,70px)] font-extrabold leading-none tracking-tighter"
+              style={{ fontFamily: "'Syne', sans-serif" }}
+            >
+              Full-Stack Engineer
+            </h2>
           </div>
 
-          <h2 className="text-4xl md:text-6xl font-extrabold mb-8 tracking-tighter">
-            Full-Stack <br />
-            <span className="text-transparent bg-clip-text bg-linear-to-r from-blue-400 via-purple-500 to-indigo-500">
-              Product Engineer.
+          <div className="inline-flex items-center gap-2 border border-white/10 bg-zinc-900 px-5 py-3 rounded-sm">
+            <MapPin size={13} className="text-emerald-400" />
+            <span className="text-[11px] tracking-[2px] uppercase text-zinc-400">
+              Bangalore, India
             </span>
-          </h2>
-
-          <div className="space-y-6 text-gray-400 text-lg leading-relaxed">
-            <p>
-              I am <span className="text-white font-medium">Vishal Kumar Singh</span>. After a successful 6-month stint at Sarthak Tech, I relocated to Bangalore to immerse myself in the heart of India&apos;s tech ecosystem.
-            </p>
-
-            <p>
-              My time at Sarthak Tech (Feb 2025 - Aug 2025) was focused on building enterprise-grade MERN applications. Now, I am bridging the gap between high-performance frontends and robust backends by mastering <span className="text-white font-medium">Java and Spring Boot</span>.
-            </p>
-
-            <p>
-              I am currently seeking a <span className="text-white font-medium">SDE-1 role</span> where I can leverage my production experience in Next.js while contributing to scalable backend architectures.
-            </p>
-          </div>
-
-          {/* Status Indicators */}
-          <div className="mt-10 grid grid-cols-2 gap-4">
-             <div className="p-4 rounded-2xl bg-white/5 border border-white/10">
-                <div className="text-blue-400 font-bold text-xl mb-1">6+ Months</div>
-                <div className="text-gray-500 text-xs uppercase tracking-wider">Production Exp.</div>
-             </div>
-             <div className="p-4 rounded-2xl bg-white/5 border border-white/10">
-                <div className="text-purple-400 font-bold text-xl mb-1">Immediate</div>
-                <div className="text-gray-500 text-xs uppercase tracking-wider">Joining Date</div>
-             </div>
           </div>
         </div>
 
-        {/* RIGHT – CARDS */}
-        <div className="space-y-6">
-          
-          {/* Current Focus Card - SHOWING YOU ARE UPSKILLING */}
-          <div className="group relative bg-linear-to-br from-blue-600/20 to-transparent border border-blue-500/20 rounded-3xl p-8 hover:bg-blue-600/10 transition-all duration-300">
-            <div className="flex items-center gap-4 mb-6">
-                <div className="p-3 rounded-2xl bg-blue-500/20 border border-blue-500/30 group-hover:scale-110 transition-transform">
-                  <Search className="h-6 w-6 text-blue-400" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold">Current Focus</h3>
-                  <p className="text-sm text-blue-400 font-medium tracking-wide">Upskilling & Seeking Roles</p>
-                </div>
-            </div>
+        {/* Main Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1px_1fr] gap-0">
 
-            <div className="space-y-4">
-              <p className="text-sm text-gray-300">Deep diving into Enterprise Java to build distributed systems:</p>
-              <div className="flex flex-wrap gap-2">
-                 {["Java OOPs", "Spring Boot", "Spring Data JPA", "REST APIs", "SQL"].map((skill) => (
-                   <span key={skill} className="px-3 py-1 bg-blue-500/10 border border-blue-500/20 text-blue-300 text-[11px] font-bold rounded-md">
-                     {skill}
-                   </span>
-                 ))}
-              </div>
+          {/* LEFT — Description */}
+          <div className="lg:pr-16 pb-12 lg:pb-0 space-y-5 text-[14px] text-zinc-400 leading-[1.8]">
+
+            <p>
+              I am <span className="text-white font-semibold">Vishal Kumar Singh</span>,
+              a Full-Stack Developer with internship experience at{" "}
+              <span className="text-white font-semibold">Sarthak Tech</span>.
+              I worked on MERN-based applications focusing on performance
+              optimization and secure authentication systems.
+            </p>
+
+            <p>
+              Currently upskilling in{" "}
+              <span className="text-white font-semibold">Java & Spring Boot</span>{" "}
+              to strengthen backend architecture and system design skills.
+            </p>
+
+            <p>
+              Actively seeking an{" "}
+              <span className="text-emerald-400 font-semibold">SDE-1 role</span>{" "}
+              where I can contribute to scalable production systems.
+            </p>
+
+            {/* Stats */}
+            <div className="grid grid-cols-2 gap-3 pt-6">
+              {STATS.map(({ value, label }) => (
+                <div
+                  key={label}
+                  className="border border-white/10 bg-zinc-900/50 p-5 rounded-sm"
+                >
+                  <div
+                    className="text-xl font-extrabold tracking-tight mb-1"
+                    style={{ fontFamily: "'Syne', sans-serif" }}
+                  >
+                    {value}
+                  </div>
+                  <div className="text-[10px] tracking-[2px] uppercase text-zinc-500">
+                    {label}
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
 
-          {/* Experience Card (Updated to show completion) */}
-          <div className="group relative bg-white/5 border border-white/10 rounded-3xl p-8 hover:bg-white/[0.07] transition-all duration-300">
-            <div className="flex items-center gap-4 mb-6">
-              <div className="p-3 rounded-2xl bg-white/10 border border-white/20 group-hover:scale-110 transition-transform">
-                <Briefcase className="h-6 w-6 text-gray-400" />
+          {/* Divider */}
+          <div className="hidden lg:block w-px bg-white/5" />
+
+          {/* RIGHT — Cards */}
+          <div className="lg:pl-16 pt-12 lg:pt-0 space-y-6">
+
+            {/* Current Focus */}
+            <div className="border border-emerald-500/20 bg-emerald-500/5 rounded-sm p-6">
+              <div className="flex items-center gap-3 mb-4">
+                <Search size={18} className="text-emerald-400" />
+                <h3
+                  className="text-sm font-bold"
+                  style={{ fontFamily: "'Syne', sans-serif" }}
+                >
+                  Current Focus
+                </h3>
+                <ArrowRight size={14} className="text-zinc-500 ml-auto" />
               </div>
-              <div>
-                <h3 className="text-xl font-bold">Past Experience</h3>
-                <p className="text-sm font-medium tracking-wide text-blue-400">Sarthak Tech</p>
+
+              <div className="flex flex-wrap gap-2">
+                {UPSKILLING.map((skill) => (
+                  <span
+                    key={skill}
+                    className="px-3 py-1.5 border border-emerald-500/20 bg-emerald-500/10 text-emerald-300 text-[11px] font-semibold tracking-[1px] uppercase rounded-sm"
+                  >
+                    {skill}
+                  </span>
+                ))}
               </div>
             </div>
 
-            <div className="space-y-3">
-              <div className="flex justify-between text-sm">
-                <span className="text-white font-semibold">Software Developer Engineer</span>
-                <span className="text-gray-500">Feb &apos;25 - Aug &apos;25</span>
+            {/* Internship */}
+            <div className="border border-white/10 bg-zinc-900/40 rounded-sm p-6">
+              <div className="flex items-center gap-3 mb-4">
+                <Briefcase size={18} className="text-zinc-400" />
+                <div>
+                  <p
+                    className="text-sm font-bold"
+                    style={{ fontFamily: "'Syne', sans-serif" }}
+                  >
+                    Software Developer Intern
+                  </p>
+                  <p className="text-[11px] uppercase text-emerald-500">
+                    Sarthak Tech · Feb–Aug 2025
+                  </p>
+                </div>
               </div>
-              <p className="text-sm text-gray-400 leading-relaxed">
-                Built and deployed full-stack web applications using the MERN stack. Focused on admin dashboard performance and secure authentication modules.
+
+              <p className="text-[13px] text-zinc-500 leading-relaxed">
+                Built full-stack applications using MERN stack with focus on
+                dashboard optimization and authentication modules.
               </p>
             </div>
-          </div>
 
-          {/* Education Card */}
-          <div className="group relative bg-white/5 border border-white/10 rounded-3xl p-8 hover:bg-white/[0.07] transition-all duration-300">
-            <div className="flex items-center gap-4">
-               <GraduationCap className="h-6 w-6 text-gray-500" />
-               <div className="text-sm">
-                  <span className="text-white font-bold block">BCA (Expected 2025)</span>
-                  <span className="text-gray-500">Microtek College (MCT), Varanasi</span>
-               </div>
+            {/* Education */}
+            <div className="border border-white/10 bg-zinc-900/40 rounded-sm p-6">
+              <div className="flex items-center gap-3">
+                <GraduationCap size={18} className="text-zinc-400" />
+                <div>
+                  <p
+                    className="text-sm font-bold"
+                    style={{ fontFamily: "'Syne', sans-serif" }}
+                  >
+                    BCA — Computer Applications
+                  </p>
+                  <p className="text-[12px] text-zinc-600">
+                    Microtek College, Varanasi · 2025
+                  </p>
+                </div>
+              </div>
             </div>
-          </div>
 
+          </div>
         </div>
       </div>
     </section>

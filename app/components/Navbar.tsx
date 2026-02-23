@@ -1,13 +1,17 @@
 "use client"
-import Image from "next/image";
-import { useState, useEffect } from "react"
+
+import Image from "next/image"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
-import { Menu, X, Github, Linkedin, Mail, FileDown } from "lucide-react" // Added FileDown
-import { Button } from "../components/ui/button"
+import { JSX, useEffect, useState } from "react"
+import { Menu, X, FileDown } from "lucide-react"
 import { cn } from "../lib/utils"
 
-const navigation = [
+interface NavItem {
+  name: string
+  href: string
+}
+
+const navigation: NavItem[] = [
   { name: "Home", href: "/" },
   { name: "About", href: "#about" },
   { name: "Skills", href: "#skills" },
@@ -15,120 +19,131 @@ const navigation = [
   { name: "Contact", href: "#contact" },
 ]
 
-const socialLinks = [
-  {
-    name: "GitHub",
-    href: "https://github.com/digitalVishalkumarsingh",
-    icon: Github,
-  },
-  {
-    name: "LinkedIn",
-    href: "https://www.linkedin.com/in/vishal-kumar-singh-597660324",
-    icon: Linkedin,
-  },
-]
-
-export default function Navbar() {
-  const [isOpen, setIsOpen] = useState(false)
-  const [isScrolled, setIsScrolled] = useState(false)
-  const pathname = usePathname()
+export default function Navbar(): JSX.Element {
+  const [isOpen, setIsOpen] = useState<boolean>(false)
+  const [isScrolled, setIsScrolled] = useState<boolean>(false)
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 10)
+    const handleScroll = (): void => {
+      setIsScrolled(window.scrollY > 20)
+    }
+
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      document.body.style.overflow = isOpen ? "hidden" : ""
+    }
+
+    return () => {
+      document.body.style.overflow = ""
+    }
+  }, [isOpen])
+
   return (
     <header
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-4 py-3",
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
         isScrolled
-          ? "bg-black/80 backdrop-blur-lg border-b border-white/10 py-2"
+          ? "bg-zinc-950/90 backdrop-blur-xl border-b border-white/5 shadow-xl shadow-black/30"
           : "bg-transparent"
       )}
     >
-      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-white/5 border border-white/10 rounded-2xl">
-        <div className="flex h-16 items-center justify-between">
-          <Link
-            href="/"
-            className="flex items-center gap-2 text-xl font-bold text-white hover:opacity-80 transition"
-          >
-            <div className="relative w-8 h-8 overflow-hidden rounded shadow-2xl">
+      <nav className="max-w-7xl mx-auto px-6 md:px-10">
+        <div className="flex h-16 md:h-[72px] items-center justify-between">
+
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-3">
+            <div className="relative w-8 h-8 rounded-sm overflow-hidden border border-white/10">
               <Image
-                src="/logo.png"   
+                src="/logo.png"
                 alt="Vishal logo"
                 fill
+                priority
                 className="object-contain"
               />
             </div>
-            <span className="hidden sm:inline-block text-lg tracking-tighter">VISHAL<span className="text-blue-500">.DEV</span></span>
+            <span
+              className="hidden sm:block text-base font-extrabold tracking-tighter text-white"
+              style={{ fontFamily: "'Syne', sans-serif" }}
+            >
+              VISHAL<span className="text-emerald-400">.DEV</span>
+            </span>
           </Link>
 
-          {/* Desktop Navigation */}
+          {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-6">
-            {navigation.map((item) => (
-              <a
+            {navigation.map((item: NavItem) => (
+              <Link
                 key={item.name}
                 href={item.href}
-                className={cn(
-                  "relative text-sm font-medium text-gray-400 transition-colors hover:text-white",
-                  pathname === item.href && "text-white"
-                )}
+                className="text-[12px] font-semibold tracking-[2px] uppercase text-zinc-500 hover:text-white transition-colors duration-200"
               >
                 {item.name}
-              </a>
+              </Link>
             ))}
           </div>
 
-          {/* Desktop Actions */}
-          <div className="hidden md:flex items-center gap-4">
-            <div className="h-4 w-px bg-white/10 mr-2" /> {/* Divider */}
-            <Button 
-              variant="outline" 
-              size="sm" 
-              className="border-white/10 bg-white hover:bg-white/10 text-xs font-bold"
-              asChild
+          {/* Desktop Resume */}
+          <div className="hidden md:block">
+            <Link
+              href="/resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-bold text-[11px] tracking-[2px] uppercase px-5 py-2.5 rounded-sm transition-all duration-200"
             >
-              <a href="/resume.pdf" target="_blank" rel="noopener noreferrer">
-                <FileDown className="mr-2 h-3.5 w-3.5" /> RESUME
-              </a>
-            </Button>
+              <FileDown size={14} />
+              Resume
+            </Link>
           </div>
 
-          {/* Mobile Menu Button */}
-          <div className="md:hidden">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setIsOpen(!isOpen)}
-            >
-              {isOpen ? <X className="text-white" /> : <Menu className="text-white" />}
-            </Button>
-          </div>
+          {/* Mobile Button */}
+          <button
+            type="button"
+            className="md:hidden flex items-center justify-center w-10 h-10 rounded-sm border border-white/10 text-zinc-400 hover:text-white transition-all duration-200"
+            onClick={() => setIsOpen((prev) => !prev)}
+            aria-label="Toggle menu"
+          >
+            {isOpen ? <X size={18} /> : <Menu size={18} />}
+          </button>
         </div>
-
-        {/* Mobile Menu */}
-        {isOpen && (
-          <div className="md:hidden bg-black/95 rounded-b-2xl border-t border-white/10 overflow-hidden">
-            <div className="px-4 py-6 space-y-4">
-              {navigation.map((item) => (
-                <a
-                  key={item.name}
-                  href={item.href}
-                  className="block text-lg font-medium text-gray-300 hover:text-white transition"
-                  onClick={() => setIsOpen(false)}
-                >
-                  {item.name}
-                </a>
-              ))}
-              <Button className="w-full bg-blue-600 hover:bg-blue-700" asChild>
-                <a href="/resume.pdf" target="_blank">Download CV</a>
-              </Button>
-            </div>
-          </div>
-        )}
       </nav>
+
+      {/* Mobile Menu */}
+      {isOpen && (
+        <div className="md:hidden fixed inset-0 top-16 bg-zinc-950/95 backdrop-blur-xl z-40 flex flex-col px-8 pt-10 pb-16">
+          <div className="flex flex-col gap-6 mb-10">
+            {navigation.map((item: NavItem) => (
+              <Link
+                key={item.name}
+                href={item.href}
+                onClick={() => setIsOpen(false)}
+                className="text-2xl font-extrabold tracking-tighter text-zinc-400 hover:text-white"
+                style={{ fontFamily: "'Syne', sans-serif" }}
+              >
+                {item.name}
+              </Link>
+            ))}
+          </div>
+
+          <Link
+            href="/resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => setIsOpen(false)}
+            className="inline-flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-bold text-[12px] tracking-[2px] uppercase px-6 py-4 rounded-sm transition-all duration-200 w-full"
+          >
+            <FileDown size={15} />
+            Download Resume
+          </Link>
+
+          <p className="mt-auto text-[10px] tracking-[3px] uppercase text-zinc-700 text-center">
+            Vishal Kumar Singh · Full-Stack Engineer
+          </p>
+        </div>
+      )}
     </header>
   )
 }

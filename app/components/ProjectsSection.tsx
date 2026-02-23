@@ -1,101 +1,193 @@
-import { ExternalLink, Github, Code2, Layers, Zap } from "lucide-react"
-import { Button } from "../components/ui/button"
-import { projects } from "../data/project"
+import { ExternalLink, Github, Zap, ArrowUpRight } from "lucide-react";
+import Link from "next/link";
+import { projects } from "../data/project";
+import { JSX } from "react";
 
-export default function ProjectsSection() {
+type Project = {
+  title: string;
+  description: string;
+  tech: string[];
+  githubUrl: string;
+  liveUrl?: string;
+  category?: string;
+  impact?: string[];
+};
+
+export default function ProjectsSection(): JSX.Element {
   return (
-    <section id="projects" className="relative bg-black text-white py-24 overflow-hidden">
-      {/* Background Decorative Mesh */}
-      <div className="absolute top-0 right-0 w-full h-full bg-[radial-gradient(circle_at_bottom_left,rgba(59,130,246,0.03)_0%,transparent_50%)]"></div>
+    <section
+      id="projects"
+      className="relative bg-zinc-950 text-white py-28 overflow-hidden font-mono"
+    >
+      {/* Grid background */}
+      <div
+        className="absolute inset-0 opacity-[0.03]"
+        style={{
+          backgroundImage:
+            "linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)",
+          backgroundSize: "72px 72px",
+        }}
+      />
 
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
-        
-        {/* Section Header */}
+      {/* Glow */}
+      <div className="absolute top-1/3 left-0 w-[400px] h-[400px] bg-emerald-500/5 rounded-full blur-[100px] pointer-events-none" />
+
+      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10">
+        {/* Header */}
         <div className="mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 mb-4">
-            <Layers className="h-3 w-3 text-blue-400" />
-            <span className="text-[10px] uppercase tracking-[0.2em] text-blue-400 font-bold">Portfolio</span>
-          </div>
-          <h2 className="text-4xl md:text-6xl font-extrabold tracking-tighter mb-6">
-            Featured <span className="text-transparent bg-clip-text bg-linear-to-r from-blue-400 to-purple-500">Engineering Work.</span>
-          </h2>
-          <p className="text-gray-400 max-w-2xl text-lg leading-relaxed">
-            A curated selection of production-ready applications focusing on performance, scalability, and seamless user experiences.
+          <p className="text-[10px] tracking-[4px] uppercase text-emerald-500 mb-3">
+            03 — Projects
           </p>
+
+          <div className="flex items-end justify-between flex-wrap gap-6">
+            <h2
+              className="text-[clamp(36px,5.5vw,72px)] font-extrabold leading-none tracking-tighter"
+              style={{ fontFamily: "'Syne', sans-serif" }}
+            >
+              Featured
+              <br />
+              <span
+                className="text-transparent"
+                style={{ WebkitTextStroke: "1.5px rgba(255,255,255,0.18)" }}
+              >
+                Engineering
+              </span>
+              <span className="text-emerald-400"> Work.</span>
+            </h2>
+
+            <p className="text-[13px] text-zinc-500 max-w-sm leading-relaxed">
+              Production-ready applications focusing on performance,
+              scalability, and seamless user experiences.
+            </p>
+          </div>
         </div>
 
         {/* Projects Grid */}
-        <div className="grid gap-8 lg:grid-cols-2">
-          {projects.map((project) => (
+        <div className="grid gap-4 lg:grid-cols-2">
+          {(projects as Project[]).map((project, index) => (
             <div
               key={project.title}
-              className="group relative bg-white/3 border border-white/10 rounded-[2.5rem] p-8 md:p-10 transition-all duration-500 hover:bg-white/6 hover:border-blue-500/30 overflow-hidden"
+              className={`group relative border rounded-sm overflow-hidden transition-all duration-300 flex flex-col ${
+                index === 0
+                  ? "border-emerald-500/25 bg-emerald-500/4 hover:bg-emerald-500/7 hover:border-emerald-500/40"
+                  : "border-white/6 bg-zinc-900/30 hover:bg-zinc-900/60 hover:border-white/12"
+              }`}
             >
-              {/* Top Row: Category & Year */}
-              <div className="flex justify-between items-center mb-8">
-                <span className="text-[10px] font-bold tracking-widest text-blue-400 uppercase bg-blue-400/10 px-3 py-1 rounded-full">
-                  {project.category || "Full-Stack System"}
+              {/* Top strip */}
+              <div className="flex items-center justify-between px-7 pt-7 pb-5 border-b border-white/4">
+                <span
+                  className={`text-[10px] tracking-[2px] uppercase px-2.5 py-1 rounded-sm border font-semibold ${
+                    index === 0
+                      ? "text-emerald-400 border-emerald-500/30 bg-emerald-500/10"
+                      : "text-zinc-500 border-white/8 bg-white/4"
+                  }`}
+                >
+                  {project.category ?? "Full-Stack System"}
                 </span>
-                <span className="text-xs text-gray-600 font-mono italic">2025/26</span>
+
+                {/* Removed hardcoded year */}
               </div>
 
-              {/* Project Title & Description */}
-              <div className="mb-8">
-                <h3 className="text-3xl font-bold mb-4 group-hover:text-blue-400 transition-colors">
+              {/* Body */}
+              <div className="px-7 py-6 flex-1 flex flex-col">
+                <h3
+                  className="text-2xl font-extrabold tracking-tight text-white mb-3 group-hover:text-emerald-400 transition-colors duration-200"
+                  style={{ fontFamily: "'Syne', sans-serif" }}
+                >
                   {project.title}
                 </h3>
-                <p className="text-gray-400 leading-relaxed line-clamp-3">
+
+                <p className="text-[13px] text-zinc-500 leading-relaxed mb-6 line-clamp-3">
                   {project.description}
                 </p>
-              </div>
 
-              {/* Key Features / Impact (Adds high value) */}
-              <div className="space-y-3 mb-8">
-                 {project.impact?.map((point: string, i: number) => (
-                   <div key={i} className="flex items-start gap-3 text-sm text-gray-300">
-                     <Zap className="h-4 w-4 text-yellow-500 mt-0.5 shrink-0" />
-                     <span>{point}</span>
-                   </div>
-                 )) || (
-                   <div className="flex items-start gap-3 text-sm text-gray-500 italic">
-                     Focusing on high-concurrency and real-time updates.
-                   </div>
-                 )}
-              </div>
+                {/* Impact */}
+                {project.impact?.length ? (
+                  <div className="space-y-2.5 mb-6">
+                    {project.impact.map((point, i) => (
+                      <div key={i} className="flex items-start gap-3">
+                        <Zap
+                          size={13}
+                          className="text-emerald-500 mt-0.5 flex-shrink-0"
+                        />
+                        <span className="text-[12px] text-zinc-400 leading-relaxed">
+                          {point}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                ) : null}
 
-              {/* Tech Stack - Pill design */}
-              <div className="flex flex-wrap gap-2 mb-10">
-                {project.tech.map((tech) => (
-                  <span
-                    key={tech}
-                    className="text-[10px] font-bold uppercase tracking-tight rounded-lg bg-black/40 border border-white/5 px-3 py-1.5 text-gray-400 group-hover:text-white group-hover:border-white/20 transition-all"
+                <div className="flex-1" />
+
+                {/* Tech Stack */}
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {project.tech.map((tech) => (
+                    <span
+                      key={tech}
+                      className="text-[10px] tracking-[1px] uppercase text-zinc-600 border border-white/6 bg-zinc-950/60 px-2.5 py-1 rounded-sm group-hover:text-zinc-400 transition-colors"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+
+                {/* Actions */}
+                <div className="flex items-center gap-3 pt-5 border-t border-white/4">
+                  {project.liveUrl ? (
+                    <a
+                      href={project.liveUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-bold text-[11px] tracking-[2px] uppercase px-5 py-2.5 rounded-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-emerald-500/20"
+                    >
+                      <ExternalLink size={12} />
+                      Live Demo
+                    </a>
+                  ) : (
+                    <span className="inline-flex items-center gap-2 border border-white/6 text-zinc-600 text-[11px] tracking-[2px] uppercase px-5 py-2.5 rounded-sm cursor-not-allowed">
+                      <ExternalLink size={12} />
+                      Private
+                    </span>
+                  )}
+
+                  <a
+                    href={project.githubUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 border border-white/8 bg-zinc-900/50 hover:border-emerald-500/30 hover:bg-emerald-500/5 text-zinc-400 hover:text-emerald-400 text-[11px] tracking-[2px] uppercase px-5 py-2.5 rounded-sm transition-all duration-200"
                   >
-                    {tech}
-                  </span>
-                ))}
+                    <Github size={12} />
+                    Codebase
+                  </a>
+                </div>
               </div>
 
-              {/* Actions */}
-              <div className="flex flex-wrap gap-4 relative z-20">
-                <Button className="bg-white text-black hover:bg-gray-200 rounded-xl" asChild>
-                  <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
-                    <ExternalLink className="mr-2 h-4 w-4" /> Live Demo
-                  </a>
-                </Button>
-
-                <Button variant="outline" className="border-white/10 bg-white/5 hover:bg-white/10 rounded-xl" asChild>
-                  <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
-                    <Github className="mr-2 h-4 w-4" /> Codebase
-                  </a>
-                </Button>
-              </div>
-
-              {/* Decorative Corner Icon */}
-              <Code2 className="absolute -bottom-4 -right-4 h-32 w-32 text-white/2 -rotate-12 group-hover:text-blue-500/5 transition-colors" />
+              {/* Watermark number */}
+              <span
+                className="absolute bottom-4 right-6 text-[80px] font-extrabold text-white/[0.025] leading-none select-none pointer-events-none"
+                style={{ fontFamily: "'Syne', sans-serif" }}
+              >
+                {String(index + 1).padStart(2, "0")}
+              </span>
             </div>
           ))}
         </div>
+
+        {/* GitHub CTA */}
+        <div className="mt-8 flex justify-center">
+          <a
+            href="https://github.com/digitalVishalkumarsingh"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 border border-white/8 bg-zinc-900/50 hover:border-emerald-500/30 hover:bg-emerald-500/5 text-zinc-400 hover:text-emerald-400 text-[12px] tracking-[2px] uppercase px-6 py-3.5 rounded-sm transition-all duration-200"
+          >
+            <Github size={14} />
+            View All on GitHub
+            <ArrowUpRight size={13} />
+          </a>
+        </div>
       </div>
     </section>
-  )
+  );
 }

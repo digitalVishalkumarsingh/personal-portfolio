@@ -1,93 +1,142 @@
-import { Heart, GraduationCap, Briefcase, ShieldCheck, Sparkles, TrendingUp } from "lucide-react"
+import { Heart, ShieldCheck, Sparkles, TrendingUp } from "lucide-react"
+import type { LucideIcon } from "lucide-react"
 
-const values = [
+type ValueItem = {
+  title: string
+  description: string
+  icon: LucideIcon
+  number: string
+}
+
+const values: ValueItem[] = [
   {
     title: "Engineering Passion",
     description:
-      "I don't just write code; I build solutions. I find joy in architecting systems that solve real-world problems and scale with user growth.",
+      "I focus on building scalable systems that solve real-world problems with clean and maintainable architecture.",
     icon: Sparkles,
-    accent: "from-blue-500 to-indigo-600",
+    number: "01",
   },
   {
     title: "Adaptive Growth",
     description:
-      "In the fast-paced tech world, I stay ahead by mastering new paradigms—like my current transition from MERN to the Java Spring ecosystem.",
+      "Constantly evolving from modern JavaScript ecosystems into enterprise-grade backend engineering.",
     icon: TrendingUp,
-    accent: "from-purple-500 to-pink-500",
+    number: "02",
   },
   {
     title: "Ownership & Quality",
     description:
-      "I believe in 'Clean Code' as a standard, not an option. I take full responsibility for the performance, security, and UX of my deployments.",
+      "Taking full responsibility for performance, security, and long-term maintainability.",
     icon: ShieldCheck,
-    accent: "from-emerald-500 to-teal-500",
+    number: "03",
   },
 ]
 
 export default function ValuesSection() {
   return (
-    <section className="relative bg-black text-white py-24 overflow-hidden">
-      {/* Background Subtle Noise/Grain or Glow */}
-      <div className="absolute top-0 left-1/4 w-125 h-125 bg-red-500/5 blur-[120px] rounded-full"></div>
+    <section
+      id="values"
+      className="relative bg-zinc-900 text-white py-28 overflow-hidden font-mono"
+    >
+      {/* SAME Subtle Dot Grid */}
+      <div
+        className="absolute inset-0 opacity-[0.04]"
+        style={{
+          backgroundImage: "radial-gradient(#fff 1px, transparent 1px)",
+          backgroundSize: "32px 32px",
+        }}
+      />
 
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
+      {/* SAME Glow Placement (bottom-right like Skills) */}
+      <div className="absolute bottom-0 right-0 w-[500px] h-[400px] bg-red-500/5 rounded-full blur-[120px] pointer-events-none" />
 
-        {/* Section Header */}
-        <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
-          <div className="max-w-xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/10 border border-red-500/20 mb-4">
-              <Heart className="h-3 w-3 text-red-400" />
-              <span className="text-[10px] uppercase tracking-[0.2em] text-red-400 font-bold">Philosophy</span>
-            </div>
-            <h2 className="text-4xl md:text-6xl font-extrabold tracking-tighter">
-              What <span className="text-transparent bg-clip-text bg-linear-to-r from-red-500 to-orange-500">Drives Me.</span>
-            </h2>
-          </div>
-          <p className="text-gray-500 text-lg max-w-sm md:text-right">
-            My core principles for building software that lasts and teams that thrive.
+      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10">
+        
+        {/* Header */}
+        <div className="mb-16">
+          <p className="text-[10px] tracking-[4px] uppercase text-red-500 mb-3">
+            03 — Philosophy
           </p>
+
+          <div className="flex items-end justify-between flex-wrap gap-6">
+            <h2 className="text-[clamp(36px,5.5vw,72px)] font-extrabold leading-none tracking-tighter">
+              What <br />
+              <span className="text-red-400">Drives Me.</span>
+            </h2>
+
+            <p className="text-[13px] text-zinc-500 max-w-sm leading-relaxed">
+              Core principles that shape how I design scalable systems.
+            </p>
+          </div>
         </div>
 
-        {/* Values Grid */}
-        <div className="grid gap-6 md:grid-cols-3">
-          {values.map((value) => {
-            const Icon = value.icon
+        {/* Grid */}
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {values.map((item, index) => {
+            const Icon = item.icon
+            const isPrimary = index === 0
 
             return (
               <div
-                key={value.title}
-                className="group relative bg-white/3 border border-white/10 rounded-4xl p-10 transition-all duration-500 hover:bg-white/[0.07] hover:border-white/20"
+                key={item.title}
+                className={`group relative border rounded-sm transition-all duration-300 flex flex-col ${
+                  isPrimary
+                    ? "border-red-500/25 bg-red-500/5"
+                    : "border-white/10 bg-zinc-950/40"
+                }`}
               >
-                {/* Icon Container with Glass Effect */}
-                <div
-                  className={`w-16 h-16 rounded-2xl bg-linear-to-br ${value.accent} p-0.5 mb-8 group-hover:rotate-6 transition-transform duration-500`}
-                >
-                  <div className="w-full h-full bg-black rounded-[14px] flex items-center justify-center">
-                    <Icon className="h-8 w-8 text-white" />
+                {/* Header */}
+                <div className="flex items-center justify-between px-6 pt-6 pb-4 border-b border-white/5">
+                  <div className="flex items-center gap-3">
+                    <div
+                      className={`w-9 h-9 flex items-center justify-center border rounded-sm ${
+                        isPrimary
+                          ? "border-red-500/30 bg-red-500/10"
+                          : "border-white/10 bg-white/5"
+                      }`}
+                    >
+                      <Icon
+                        size={16}
+                        className={
+                          isPrimary ? "text-red-400" : "text-zinc-400"
+                        }
+                      />
+                    </div>
+                    <h3 className="text-sm font-semibold">
+                      {item.title}
+                    </h3>
                   </div>
+
+                  <span className="text-xs text-zinc-600">
+                    {item.number}
+                  </span>
                 </div>
 
-                {/* Title */}
-                <h3 className="text-2xl font-bold mb-4 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-linear-to-r group-hover:from-white group-hover:to-gray-500 transition-all">
-                  {value.title}
-                </h3>
-
-                {/* Description */}
-                <p className="text-gray-400 leading-relaxed font-medium">
-                  {value.description}
-                </p>
-
-                {/* Hidden "Read More" or subtle detail that appears on hover */}
-                <div className="mt-6 flex items-center gap-2 text-[10px] font-bold text-gray-600 tracking-widest uppercase opacity-0 group-hover:opacity-100 transition-opacity">
-                  <div className="h-1 w-8 bg-gray-800 rounded-full"></div>
-                  Core Principle
+                {/* Body */}
+                <div className="px-6 py-6 flex-1">
+                  <p className="text-xs text-zinc-500 leading-relaxed">
+                    {item.description}
+                  </p>
                 </div>
 
-                {/* Interactive Background Glow */}
-                <div className={`absolute inset-0 rounded-4xl bg-linear-to-br ${value.accent} opacity-0 group-hover:opacity-[0.03] transition-opacity pointer-events-none`} />
+                {/* Watermark */}
+                <span className="absolute bottom-3 right-4 text-[64px] font-extrabold text-white/[0.02] select-none pointer-events-none">
+                  {item.number}
+                </span>
               </div>
             )
           })}
+        </div>
+
+        {/* Bottom Callout (same styling pattern as Skills section) */}
+        <div className="mt-12 border border-dashed border-white/10 bg-zinc-950/40 rounded-sm px-6 py-5 flex items-center gap-4">
+          <div className="w-10 h-10 flex items-center justify-center border border-red-500/30 bg-red-500/10 rounded-sm">
+            <Heart size={16} className="text-red-400" />
+          </div>
+
+          <p className="text-sm text-zinc-300">
+            Building software with responsibility, clarity, and long-term thinking.
+          </p>
         </div>
       </div>
     </section>

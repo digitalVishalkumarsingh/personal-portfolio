@@ -1,90 +1,187 @@
+"use client"
+
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowRight, Github, Linkedin, Mail, FileText } from "lucide-react"
-import { Button } from "../components/ui/button"
+import { ArrowRight, Github, Linkedin, Mail, FileText, MapPin } from "lucide-react"
+import { JSX } from "react"
 
-export default function HeroSection() {
+interface SocialLink {
+  href: string
+  label: string
+  icon: React.ReactNode
+}
+
+const STACK: string[] = [
+  "Next.js · React",
+  "Node.js · Express",
+  "PostgreSQL · MongoDB",
+  "REST APIs · TypeScript",
+]
+
+const SOCIALS: SocialLink[] = [
+  {
+    href: "https://github.com/digitalVishalkumarsingh",
+    label: "GitHub",
+    icon: <Github size={17} />,
+  },
+  {
+    href: "https://www.linkedin.com/in/vishal-kumar-singh-597660324",
+    label: "LinkedIn",
+    icon: <Linkedin size={17} />,
+  },
+  {
+    href: "mailto:digitalvishalkrsingh@gmail.com",
+    label: "Email",
+    icon: <Mail size={17} />,
+  },
+]
+
+export default function HeroSection(): JSX.Element {
   return (
-    <section className="relative min-h-screen flex items-center bg-black text-white overflow-hidden">
-      {/* Background Glow Effect */}
-      <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/4 w-125 h-125 bg-blue-600/10 blur-[120px] rounded-full"></div>
-      
-      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12 items-center relative z-10">
-        
-        {/* LEFT CONTENT */}
-        <div>
-          {/* Status Badge */}
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 mb-6">
+    <section className="relative min-h-screen flex flex-col bg-zinc-950 text-white overflow-hidden font-mono">
+
+      {/* Grid Background */}
+      <div
+        className="absolute inset-0 opacity-[0.04]"
+        style={{
+          backgroundImage:
+            "linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)",
+          backgroundSize: "72px 72px",
+        }}
+      />
+
+      {/* Glow Effects */}
+      <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-emerald-500/10 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-1/3 left-1/4 w-64 h-64 bg-emerald-500/5 rounded-full blur-[80px] pointer-events-none" />
+
+      {/* Top Bar */}
+      <div className="relative z-10 flex items-center justify-between px-8 md:px-14 pt-8">
+        <span className="text-[10px] tracking-[4px] uppercase text-zinc-600">
+          Portfolio
+        </span>
+        <span className="text-[10px] tracking-[4px] uppercase text-zinc-600">
+          Bangalore, IN
+        </span>
+      </div>
+
+      {/* Main Content */}
+      <div className="relative z-10 flex-1 grid grid-cols-1 lg:grid-cols-2 max-w-7xl mx-auto w-full px-8 md:px-14 items-center py-16 lg:py-0">
+
+        {/* LEFT SIDE */}
+        <div className="flex flex-col justify-center lg:pr-20 lg:border-r lg:border-white/5 py-12">
+
+          {/* Availability Badge */}
+          <div className="inline-flex items-center gap-2.5 bg-zinc-900 border border-white/10 text-zinc-300 px-4 py-2 text-[11px] tracking-[2px] uppercase rounded-sm mb-10 w-fit">
             <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
             </span>
-            <span className="text-xs font-medium text-gray-300 tracking-wide uppercase">Available for immediate hiring in Bangalore</span>
+            Open to Work
           </div>
 
-          <h1 className="text-5xl md:text-7xl font-extrabold leading-[1.1] mb-6 tracking-tight">
-            Building systems with{" "}
-            <span className="text-transparent bg-clip-text bg-linear-to-r from-blue-400 to-purple-500">
-              purpose.
-            </span>
-          </h1>
+          {/* Name */}
+          <div className="mb-6">
+            <h1
+              className="text-[clamp(52px,8vw,100px)] font-extrabold leading-none tracking-tighter"
+              style={{ fontFamily: "'Syne', sans-serif" }}
+            >
+              VISHAL
+            </h1>
+            <h1
+              className="text-[clamp(52px,8vw,100px)] font-extrabold leading-none tracking-tighter text-emerald-400"
+              style={{ fontFamily: "'Syne', sans-serif" }}
+            >
+              SINGH
+            </h1>
+          </div>
 
-          <p className="text-lg text-gray-400 max-w-xl mb-8 leading-relaxed">
-            I&apos;m <span className="text-white font-medium">Vishal Kumar Singh</span>, a Full-Stack Engineer specializing in 
-            <span className="text-white"> Next.js</span> & <span className="text-white">Node.js</span>. 
-            Focused on building production-ready applications with 6 months of hands-on experience in high-performance web systems.
+          {/* Role */}
+          <p className="text-[11px] tracking-[3px] uppercase text-zinc-500 mb-6">
+            Full-Stack Engineer
           </p>
 
-          {/* CTA BUTTONS */}
-          <div className="flex flex-col sm:flex-row gap-4 mb-10">
-            <Button size="lg" className="bg-white text-black hover:bg-gray-200" asChild>
-              <Link href="#projects">
-                View My Work <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
-            
-            <Button size="lg" variant="outline" className="border-white/10 hover:bg-white/5" asChild>
-              <Link href="/resume.pdf" target="_blank">
-                <FileText className="mr-2 h-4 w-4" /> Download Resume
-              </Link>
-            </Button>
+          {/* Description */}
+          <p className="text-sm text-zinc-400 leading-relaxed max-w-md mb-10">
+            Building scalable web applications using{" "}
+            <span className="text-white font-semibold">Next.js</span>,{" "}
+            <span className="text-white font-semibold">Node.js</span> and modern
+            backend architectures focused on performance and clean code.
+          </p>
+
+          {/* CTA Buttons */}
+          <div className="flex flex-wrap gap-3 mb-12">
+            <Link
+              href="#projects"
+              className="inline-flex items-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-bold text-[12px] tracking-[2px] uppercase px-6 py-3.5 rounded-sm transition-all duration-200 hover:-translate-y-0.5"
+            >
+              View Work <ArrowRight size={14} />
+            </Link>
+
+            <Link
+              href="/resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 border border-white/15 hover:border-white/40 text-zinc-300 hover:text-white font-bold text-[12px] tracking-[2px] uppercase px-6 py-3.5 rounded-sm transition-all duration-200"
+            >
+              <FileText size={14} /> Resume
+            </Link>
           </div>
 
-          {/* SOCIAL ICONS */}
-          <div className="flex items-center gap-6">
-            <span className="text-sm text-gray-500 font-medium uppercase tracking-widest">Connect:</span>
-            <div className="flex gap-5">
-              <a href="https://github.com/digitalVishalkumarsingh" target="_blank" className="text-gray-400 hover:text-blue-400 transition-colors">
-                <Github className="h-6 w-6" />
+          {/* Social Links */}
+          <div className="flex items-center gap-5">
+            {SOCIALS.map(({ href, label, icon }) => (
+              <a
+                key={label}
+                href={href}
+                target={href.startsWith("http") ? "_blank" : undefined}
+                rel="noopener noreferrer"
+                aria-label={label}
+                className="flex items-center justify-center w-10 h-10 border border-white/10 rounded-sm text-zinc-500 hover:text-emerald-400 hover:border-emerald-500/50 transition-all duration-200"
+              >
+                {icon}
               </a>
-              <a href="https://www.linkedin.com/in/vishal-kumar-singh-597660324" target="_blank" className="text-gray-400 hover:text-blue-400 transition-colors">
-                <Linkedin className="h-6 w-6" />
-              </a>
-              <a href="mailto:digitalvishalkrsingh@gmail.com" className="text-gray-400 hover:text-blue-400 transition-colors">
-                <Mail className="h-6 w-6" />
-              </a>
-            </div>
+            ))}
           </div>
         </div>
 
-        {/* RIGHT IMAGE */}
-        <div className="relative flex justify-center items-center">
-          {/* Animated Glow behind image */}
-          <div className="absolute w-[80%] h-[80%] rounded-full bg-linear-to-r from-blue-500 to-purple-600 blur-[80px] opacity-20 animate-pulse"></div>
+        {/* RIGHT SIDE */}
+        <div className="flex flex-col items-center justify-center lg:pl-20 py-12">
 
-          <div className="relative w-80 h-80 md:w-112.5 md:h-112.5 p-2 rounded-3xl overflow-hidden">
-             {/* Frame Design */}
-            <div className="absolute inset-0 rounded-3xl border border-white/10 bg-linear-to-b from-white/10 to-transparent"></div>
-            
-            <div className="relative w-full h-full rounded-2xl overflow-hidden border border-white/5">
+          <div className="relative w-full max-w-[360px]">
+
+            <div className="absolute top-4 left-4 right-[-16px] bottom-[-16px] bg-emerald-500/20 rounded-sm border border-emerald-500/20" />
+
+            <div className="relative z-10 rounded-sm overflow-hidden border border-white/10 aspect-[3/4]">
               <Image
-                src="/profile.png" 
-                alt="Vishal Kumar Singh"
+                src="/profile.png"
+                alt="Vishal Singh"
                 fill
-                className="object-cover grayscale hover:grayscale-0 transition-all duration-700"
                 priority
+                className="object-cover grayscale hover:grayscale-0 transition-all duration-700"
               />
+              <div className="absolute bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-zinc-950/80 to-transparent" />
             </div>
+
+            {/* Location Badge */}
+            <div className="absolute bottom-6 left-[-20px] z-20 flex items-center gap-2 bg-zinc-900 border border-white/10 px-4 py-3 rounded-sm shadow-xl">
+              <MapPin size={14} className="text-emerald-400" />
+              <span className="text-sm font-bold tracking-tight">
+                Bangalore, India
+              </span>
+            </div>
+          </div>
+
+          {/* Stack */}
+          <div className="w-full max-w-[360px] mt-10 space-y-3">
+            {STACK.map((item) => (
+              <div key={item} className="flex items-center gap-3 group">
+                <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                <span className="text-[12px] tracking-[1.5px] uppercase text-zinc-500 group-hover:text-zinc-300 transition-colors">
+                  {item}
+                </span>
+                <div className="flex-1 h-px bg-white/5 group-hover:bg-emerald-500/20 transition-colors" />
+              </div>
+            ))}
           </div>
         </div>
       </div>

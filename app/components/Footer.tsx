@@ -1,11 +1,21 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { Github, Linkedin, Mail, Heart, Coffee, MapPin } from "lucide-react"
-import { Button } from "../components/ui/button"
-import { motion } from "framer-motion"
+import Link from "next/link";
+import { Github, Linkedin, Mail, Heart, Coffee, MapPin } from "lucide-react";
+import { JSX } from "react";
 
-const socialLinks = [
+type SocialLink = {
+  name: string;
+  href: string;
+  icon: React.ElementType;
+};
+
+type QuickLink = {
+  name: string;
+  href: string;
+};
+
+const socialLinks: SocialLink[] = [
   {
     name: "GitHub",
     href: "https://github.com/digitalVishalkumarsingh",
@@ -21,140 +31,149 @@ const socialLinks = [
     href: "mailto:digitalvishalkrsingh@gmail.com",
     icon: Mail,
   },
-]
+];
 
-const quickLinks = [
+const quickLinks: QuickLink[] = [
   { name: "Home", href: "/" },
   { name: "About", href: "#about" },
   { name: "Skills", href: "#skills" },
   { name: "Projects", href: "#projects" },
   { name: "Contact", href: "#contact" },
-]
+];
 
-const container = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: { staggerChildren: 0.1 },
-  },
-}
-
-const item = {
-  hidden: { opacity: 0, y: 10 },
-  show: { opacity: 1, y: 0 },
-}
-
-export default function Footer() {
-  const currentYear = new Date().getFullYear()
+export default function Footer(): JSX.Element {
+  const currentYear = new Date().getFullYear();
 
   return (
-    <motion.footer
-      className="relative bg-black text-white border-t border-white/5"
-      initial="hidden"
-      whileInView="show"
-      viewport={{ once: true }}
-      variants={container}
-    >
-      <div className="max-w-7xl mx-auto px-6 py-16">
+    <footer className="relative bg-zinc-950 text-white border-t border-white/5 font-mono overflow-hidden">
+      {/* Background */}
+      <div
+        className="absolute inset-0 opacity-[0.025]"
+        style={{
+          backgroundImage: "radial-gradient(#fff 1px, transparent 1px)",
+          backgroundSize: "32px 32px",
+        }}
+      />
 
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[500px] h-[200px] bg-emerald-500/5 rounded-full blur-[80px] pointer-events-none" />
+
+      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10 pt-16">
         {/* Top Grid */}
-        <div className="grid gap-16 md:grid-cols-4 lg:grid-cols-5">
-          
-          {/* Brand & Bio */}
-          <motion.div variants={item} className="md:col-span-2">
-            <Link
-              href="/logo.png"
-              className="flex items-center gap-3 text-2xl font-bold mb-6 tracking-tighter"
-            >
-              <span className="rounded-xl bg-linear-to-br from-blue-600 to-purple-600 p-1.5 shadow-lg shadow-blue-500/20">
-                <div className="bg-black rounded-lg px-2 py-0.5 text-sm uppercase">VKS</div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 pb-14 border-b border-white/5">
+          {/* Brand */}
+          <div className="lg:col-span-2">
+            <Link href="/" className="inline-flex items-center gap-3 mb-6 group">
+              <div className="flex items-center justify-center w-10 h-10 border border-white/10 group-hover:border-emerald-500/40 rounded-sm transition-colors">
+                <span
+                  className="text-sm font-extrabold text-emerald-400 tracking-tight"
+                  style={{ fontFamily: "'Syne', sans-serif" }}
+                >
+                  VKS
+                </span>
+              </div>
+              <span
+                className="text-lg font-extrabold tracking-tighter text-white"
+                style={{ fontFamily: "'Syne', sans-serif" }}
+              >
+                Vishal<span className="text-emerald-400">.DEV</span>
               </span>
-              <span>Vishal Kumar Singh</span>
             </Link>
 
-            <p className="text-gray-500 max-w-sm mb-8 leading-relaxed font-medium">
-              Full-Stack Engineer building high-performance web systems. 
-              Currently mastering Java Spring Boot in the heart of Bangalore.
+            <p className="text-[13px] text-zinc-500 max-w-xs leading-relaxed mb-8">
+              Full-Stack Engineer building high-performance web systems.
+              Currently mastering Java & Spring Boot.
             </p>
 
-            <div className="flex gap-4">
-              {socialLinks.map((link) => (
-                <motion.a
-                  key={link.name}
-                  href={link.href}
-                  target="_blank"
-                  className="p-3 rounded-xl bg-white/5 border border-white/10 text-gray-400 hover:text-white hover:bg-white/10 transition-all"
-                  whileHover={{ y: -3 }}
-                >
-                  <link.icon className="h-5 w-5" />
-                </motion.a>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* Quick Links */}
-          <motion.div variants={item}>
-            <h3 className="text-xs uppercase tracking-[0.2em] font-bold text-gray-400 mb-6">
-              Navigation
-            </h3>
-            <ul className="space-y-4">
-              {quickLinks.map((link) => (
-                <li key={link.name}>
+            {/* Social Icons */}
+            <div className="flex gap-2">
+              {socialLinks.map(({ name, href, icon: Icon }) => {
+                const isExternal = href.startsWith("http");
+                return (
                   <a
-                    href={link.href}
-                    className="text-gray-500 hover:text-blue-400 font-medium transition-colors"
+                    key={name}
+                    href={href}
+                    target={isExternal ? "_blank" : undefined}
+                    rel={isExternal ? "noopener noreferrer" : undefined}
+                    aria-label={name}
+                    className="flex items-center justify-center w-9 h-9 border border-white/8 rounded-sm text-zinc-600 hover:text-emerald-400 hover:border-emerald-500/30 hover:bg-emerald-500/5 transition-all duration-200"
                   >
-                    {link.name}
+                    <Icon size={15} />
                   </a>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Navigation */}
+          <div>
+            <p className="text-[10px] tracking-[3px] uppercase text-zinc-600 mb-6">
+              Navigation
+            </p>
+            <ul className="space-y-3">
+              {quickLinks.map(({ name, href }) => (
+                <li key={name}>
+                  {href.startsWith("/") ? (
+                    <Link
+                      href={href}
+                      className="text-[12px] tracking-[1px] text-zinc-500 hover:text-emerald-400 transition-colors duration-200"
+                    >
+                      {name}
+                    </Link>
+                  ) : (
+                    <a
+                      href={href}
+                      className="text-[12px] tracking-[1px] text-zinc-500 hover:text-emerald-400 transition-colors duration-200"
+                    >
+                      {name}
+                    </a>
+                  )}
                 </li>
               ))}
             </ul>
-          </motion.div>
+          </div>
 
-          {/* Contact Details */}
-          <motion.div variants={item} className="md:col-span-1 lg:col-span-2">
-            <h3 className="text-xs uppercase tracking-[0.2em] font-bold text-gray-400 mb-6">
+          {/* Contact */}
+          <div className="lg:col-span-2">
+            <p className="text-[10px] tracking-[3px] uppercase text-zinc-600 mb-6">
               Connect Directly
-            </h3>
+            </p>
 
-            <div className="space-y-5 text-gray-500">
+            <div className="space-y-3">
               <a
                 href="mailto:digitalvishalkrsingh@gmail.com"
-                className="flex items-center gap-3 hover:text-white transition group"
+                className="flex items-center gap-4 border border-white/6 bg-zinc-900/40 hover:border-emerald-500/25 hover:bg-emerald-500/4 px-4 py-3.5 rounded-sm transition-all duration-200 group"
               >
-                <div className="p-2 rounded-lg bg-white/5 group-hover:text-blue-400 transition-colors">
-                  <Mail className="h-4 w-4" />
-                </div>
-                <span className="text-sm font-medium">digitalvishalkrsingh@gmail.com</span>
+                <Mail size={13} className="text-zinc-500 group-hover:text-emerald-400 transition-colors" />
+                <span className="text-[12px] text-zinc-500 group-hover:text-zinc-300 truncate">
+                  digitalvishalkrsingh@gmail.com
+                </span>
               </a>
 
-              <div className="flex items-center gap-3 group">
-                <div className="p-2 rounded-lg bg-white/5 group-hover:text-purple-400 transition-colors">
-                  <MapPin className="h-4 w-4" />
-                </div>
-                <span className="text-sm font-medium">HSR Layout, Bengaluru, KA</span>
+              <div className="flex items-center gap-4 border border-white/6 bg-zinc-900/40 px-4 py-3.5 rounded-sm">
+                <MapPin size={13} className="text-zinc-500" />
+                <span className="text-[12px] text-zinc-500">
+                  Bengaluru, Karnataka
+                </span>
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
 
         {/* Bottom Bar */}
-        <motion.div
-          className="mt-20 pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-6 text-[10px] uppercase tracking-widest font-bold text-gray-600"
-          variants={item}
-        >
-          <p>© {currentYear} Vishal Kumar Singh — Design & Code</p>
+        <div className="py-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-[10px] tracking-[2px] uppercase text-zinc-700">
+            © {currentYear} Vishal Kumar Singh — All Rights Reserved
+          </p>
 
-          <div className="flex items-center gap-4">
-            <span className="flex items-center gap-2">
-              Built with <Coffee className="h-3 w-3 text-orange-500" /> & <Heart className="h-3 w-3 text-red-500 fill-red-500" />
+          <div className="flex items-center gap-4 text-[10px] tracking-[1.5px] uppercase text-zinc-700">
+            <span className="flex items-center gap-1.5">
+              Built with <Coffee size={11} /> & <Heart size={11} />
             </span>
-            <span className="h-3 w-px bg-white/10" />
-            <span className="text-gray-400">Next.js 14 • Tailwind • Framer</span>
+            <span className="w-px h-3 bg-white/8" />
+            <span>Next.js · Tailwind CSS</span>
           </div>
-        </motion.div>
-
+        </div>
       </div>
-    </motion.footer>
-  )
+    </footer>
+  );
 }
